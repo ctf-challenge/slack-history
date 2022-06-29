@@ -3,10 +3,13 @@ import os
 import requests
 import json
 from datetime import datetime
+from dotenv import load_dotenv
 
-TOKEN = "flag{dummy}"
-HEADER = { "Authorization": "Bearer {}".format(TOKEN) }
-CHANNEL_ID = "XXXXXXXXXXXX" 
+load_dotenv(verbose=True)
+
+TOKEN = os.environ.get("SLACK_TOKEN") # slackから発行したトークンを.envファイルから取得する
+HEADER = { "Authorization": "Bearer {}".format(TOKEN) } # bearerトークンで指定することで認証を通す
+CHANNEL_ID = "XXXXXXXXXXXX" # 取得したいメッセージがあるチャネルのIDを指定する
 
 def get_history(oldest, cursor=None):
     oldest_str = str(oldest.timestamp())
@@ -25,7 +28,7 @@ def get_history(oldest, cursor=None):
 
 
 if __name__ == "__main__":
-    OLDEST = datetime(2022,5,27)
+    OLDEST = datetime(2022,6,6)    # 2022/6/6 0:00以降のメッセージを取得してみる
 
     next_cursor=None
     result = []
